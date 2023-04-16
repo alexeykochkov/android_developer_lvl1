@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Alex Key First App</string>
+    <string name="all_empty_place">Все места свободны</string>
+    <string name="process">Осталось мест: %d</string>
+    <string name="too_much">Пассажиров слишком много!!!</string>
+
+</resources>
