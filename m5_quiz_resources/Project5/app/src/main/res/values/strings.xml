@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Guess the song</string>
+    <string name="napalm_text">Какая песня группы Napalm Death является самой короткой из всех написанных?</string>
+    <string name="first_answer">1. А я милого узнаю по походке</string>
+    <string name="second_answer">2. Ой стоит береза в поле у ручья</string>
+    <string name="third_answer">3. You Suffer!</string>
+
+</resources>
