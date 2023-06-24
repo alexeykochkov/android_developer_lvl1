@@ -8,6 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.homework7.databinding.FragmentFirstBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.snackbar.Snackbar
+import java.text.SimpleDateFormat
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,11 +50,27 @@ class FirstFragment : Fragment() {
 
         val binding = FragmentFirstBinding.inflate(layoutInflater)
 
+        binding.dayOfBirth.setOnClickListener {
+            val daypeacker = openDayPicker()
+            daypeacker.addOnPositiveButtonClickListener {
+                val dateOfBirth = Date(it)
+                val formatOfBirth = SimpleDateFormat("dd_MM_yy", Locale.getDefault())
+                Snackbar.make(binding.root, formatOfBirth.format(dateOfBirth), 2000).show()
+            }
+            daypeacker.show(parentFragmentManager, "dayPeacker")
+        }
+
         binding.start.setOnClickListener {
             sounds(startSound)
             findNavController().navigate(FirstFragmentDirections.actionFirstFragmentToSecondFragment())
         }
         return binding.root
+    }
+
+    private fun openDayPicker(): MaterialDatePicker<Long> {
+        return MaterialDatePicker.Builder.datePicker()
+            .setTitleText(getString(R.string.day))
+            .build()
     }
 
     companion object {

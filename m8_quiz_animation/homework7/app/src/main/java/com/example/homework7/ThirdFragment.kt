@@ -9,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.homework7.Result
 import com.example.homework7.databinding.FragmentSecondBinding
 import com.example.homework7.databinding.FragmentThirdBinding
 
@@ -46,13 +47,11 @@ class ThirdFragment : Fragment() {
         val binding = FragmentThirdBinding.inflate(layoutInflater)
         val bundle = args.answer
         if (bundle != null) {
-            val recieveInfo1 = bundle.getString("answer")
-            val recieveInfo2 = bundle.getString("answer2")
-            val recieveInfo3 = bundle.getString("answer3")
-            println(recieveInfo1)
-            binding.results.text = recieveInfo1.toString()
-            binding.results2.text = recieveInfo2.toString()
-            binding.results3.text = recieveInfo3.toString()
+            var result = Result()
+            result.deSerialize(bundle)
+            binding.results.text = result.get(Result.ANSWER1)
+            binding.results2.text = result.get(Result.ANSWER2)
+            binding.results3.text = result.get(Result.ANSWER3)
         }
 
         binding.restart.setOnClickListener {

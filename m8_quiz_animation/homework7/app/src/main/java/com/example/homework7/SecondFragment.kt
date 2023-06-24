@@ -1,6 +1,7 @@
 package com.example.homework7
 
 import android.content.Intent
+import android.content.res.Resources.NotFoundException
 import android.media.MediaActionSound
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
+import com.example.homework7.Result
 import com.example.homework7.databinding.FragmentFirstBinding
 import com.example.homework7.databinding.FragmentSecondBinding
 import com.google.android.material.animation.AnimationUtils
@@ -20,16 +22,58 @@ import com.google.android.material.animation.AnimationUtils
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+class Result() {
+
+    companion object {
+        val ANSWER1 = "answer1"
+        val ANSWER2 = "answer2"
+        val ANSWER3 = "answer3"
+    }
+
+    var questionIdToUserResult_ = HashMap<String, String>()
+
+    fun put(questionId: String, userResult: String) {
+        questionIdToUserResult_.put(questionId, userResult)
+    }
+
+    fun get(questionId: String): String? {
+        return questionIdToUserResult_.get(questionId)
+    }
+///////////////////////////////////////////////////////////
+
+    fun serialize(): Bundle {
+        var bundle = Bundle()
+        for ((key, value) in questionIdToUserResult_.entries) {
+            bundle.putString(key, value)
+        }
+        return bundle
+    }
+
+    fun deSerialize(bundle: Bundle) {
+        for (questionId in bundle.keySet()) {
+            var userResult = bundle.getString(questionId)
+            if (userResult != null) {
+                put(questionId, userResult)
+            } else {
+                throw NotFoundException()
+            }
+        }
+    }
+}
+
 /**
  * A simple [Fragment] subclass.
  * Use the [SecondFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
+
 class SecondFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    private var bundle_ = Bundle()
+    private var result_ = Result()
+
     private var onBackPressedCallback: OnBackPressedCallback? = null
 
     override fun onDestroyView() {
@@ -76,10 +120,10 @@ class SecondFragment : Fragment() {
         }
 
         class FirstBlock(
-            var bundle: Bundle,
+            var bundle: Result,
             var rightAnswer: String,
             var buttonsToDisable: MutableList<Button>,
-            var answer: String = "answer"
+            var answer: String = Result.ANSWER1
         ) {
             var sound: MediaPlayer = noSound
 
@@ -90,7 +134,7 @@ class SecondFragment : Fragment() {
             }
 
             fun f() {
-                bundle.putString(answer, rightAnswer)
+                bundle.put(answer, rightAnswer)
                 buttonsToDisable.forEach {
                     it.isEnabled = false
                 }
@@ -102,9 +146,9 @@ class SecondFragment : Fragment() {
             mutableListOf(binding.firstAnswer, binding.secondAnswer, binding.thirdAnswer)
 
         var firstBlocks = mutableListOf(
-            FirstBlock(bundle_, "no", mutableListOf(binding.secondAnswer, binding.thirdAnswer)),
-            FirstBlock(bundle_, "no", mutableListOf(binding.firstAnswer, binding.thirdAnswer)),
-            FirstBlock(bundle_, "yes", mutableListOf(binding.firstAnswer, binding.secondAnswer))
+            FirstBlock(result_, "no", mutableListOf(binding.secondAnswer, binding.thirdAnswer)),
+            FirstBlock(result_, "no", mutableListOf(binding.firstAnswer, binding.thirdAnswer)),
+            FirstBlock(result_, "yes", mutableListOf(binding.firstAnswer, binding.secondAnswer))
         )
 
         for (i in 0 until firstBlocks.size) {
@@ -115,22 +159,22 @@ class SecondFragment : Fragment() {
 
         // Second Question
         var a = FirstBlock(
-            bundle_,
+            result_,
             "no",
             mutableListOf(binding.secondAnswer2, binding.thirdAnswer3),
-            "answer2"
+            Result.ANSWER2
         )
         var b = FirstBlock(
-            bundle_,
+            result_,
             "no",
             mutableListOf(binding.secondAnswer1, binding.thirdAnswer3),
-            "answer2"
+           Result.ANSWER2
         )
         var c = FirstBlock(
-            bundle_,
+            result_,
             "yes",
             mutableListOf(binding.secondAnswer1, binding.secondAnswer2),
-            "answer2"
+            Result.ANSWER2
         )
 
         binding.secondAnswer1.setOnClickListener {
@@ -152,19 +196,19 @@ class SecondFragment : Fragment() {
 
         // Third Question
         binding.thirdAnswer1.setOnClickListener {
-            bundle_.putString("answer3", "no")
+            result_.put(Result.ANSWER3, "no")
             binding.thirdAnswer2.isEnabled = false
             binding.thirdAnswer33.isEnabled = false
         }
 
         binding.thirdAnswer2.setOnClickListener {
-            bundle_.putString("answer3", "no")
+            result_.put(Result.ANSWER3, "no")
             binding.thirdAnswer1.isEnabled = false
             binding.thirdAnswer33.isEnabled = false
         }
 
         binding.thirdAnswer33.setOnClickListener {
-            bundle_.putString("answer3", "yes")
+            result_.put(Result.ANSWER3, "yes")
             binding.thirdAnswer1.isEnabled = false
             binding.thirdAnswer2.isEnabled = false
         }
@@ -173,7 +217,7 @@ class SecondFragment : Fragment() {
         binding.next.setOnClickListener {
             findNavController().navigate(
                 SecondFragmentDirections.actionSecondFragmentToThirdFragment(
-                    bundle_
+                    result_.serialize()
                 )
             )
         }
