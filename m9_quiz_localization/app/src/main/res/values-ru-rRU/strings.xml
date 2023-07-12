@@ -1,19 +1,25 @@
 <resources>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="app_name">Guess the song</string>
-    <string name="napalm_text">1. Which Napalm Death song is the shortest ever written?</string>
-    <string name="first_answer">1. And I recognize the cute one by his gait</string>
-    <string name="second_answer">2. Oh there is a birch tree in the field by the stream</string>
+    <string name="app_name">Угадайте песню</string>
+    <string name="napalm_text">1. Какая песня группы Napalm Death является самой короткой из всех написанных?</string>
+    <string name="first_answer">1. А я милого узнаю по походке</string>
+    <string name="second_answer">2. Ой стоит береза в поле у ручья</string>
     <string name="third_answer">3. You Suffer!</string>
     <string name="napalm_text1">2. Nazi-Punks Fuck Off написали Napalm Death?</string>
-    <string name="second_answer1">1. Yes</string>
-    <string name="second_answer2">2. This is a cover of Tanya Bulanova!</string>
-    <string name="second_answer3">3. This is a cover of Dead Kennedys of course.</string>
-    <string name="napalm_text2">3. How long does the shortest song in their performance listed in the Guinness Book of Records last?</string>
-    <string name="third_answer1">1. 20 min </string>
-    <string name="third_answer2">2. 30 min </string>
-    <string name="third_answer3">3. 1,316 sec </string>
-    <string name="back"> BACK </string>
-    <string name="next"> FORWARD </string>
-    <string name="day"> Enter your birthday </string>
+    <string name="second_answer1">1. Да</string>
+    <string name="second_answer2">2. Это кавер на Танюшу Буланову!</string>
+    <string name="second_answer3">3. Это кавер на Dead Kennedys естессна.</string>
+    <string name="napalm_text2">3. Сколько по времени длиться самая короткая песня в их исполнении внесенная в Книгу Рекордов Гиннесса ?</string>
+    <string name="third_answer1">1. 20 минут </string>
+    <string name="third_answer2">2. 30 минут </string>
+    <string name="third_answer3">3. 1,316 секунды </string>
+    <string name="back"> НАЗАД </string>
+    <string name="next"> ВПЕРЕД </string>
+    <string name="day"> Введите день рождения </string>
+    <string name="start_button"> Начнём </string>
+    <string name="q1"> Вопрос №1 </string>
+    <string name="q2"> Вопрос №2 </string>
+    <string name="q3"> Вопрос №3 </string>
+    <string name="restart"> Станцевать заново </string>
+
 </resources>
