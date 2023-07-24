@@ -30,6 +30,7 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.button.setOnClickListener {
@@ -41,6 +42,7 @@ class MainFragment : Fragment() {
             .launchWhenStarted {
                 viewModel.state
                     .collect { State ->
+                        binding.textview.text = State.text
                         when (State) {
                             is State.Success -> {
                                 binding.progress.isVisible = false
