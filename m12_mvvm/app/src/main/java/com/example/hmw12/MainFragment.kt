@@ -10,6 +10,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.hmw12.databinding.FragmentMainBinding
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -30,9 +33,9 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.button.setOnClickListener {
             val text: String = binding.edit.text.toString()
             viewModel.findText(text)
@@ -42,15 +45,35 @@ class MainFragment : Fragment() {
             .launchWhenStarted {
                 viewModel.state
                     .collect { State ->
-                        binding.textview.text = State.text
                         when (State) {
                             is State.Success -> {
+                                val text: String = binding.edit.text.toString()
                                 binding.progress.isVisible = false
+                                binding.edit.error = null
+                                binding.button.isEnabled = true
+                                if (text.length > 3) {
+                                    binding.textview.text = ("по запросу \"${text}\" ничего не найдено")
+                                }
                             }
                             is State.Loading -> {
                                 binding.progress.isVisible = true
+                                binding.edit.error = null
+                                binding.button.isEnabled = false
+                            }
+                            is State.Error -> {
+                                binding.progress.isVisible = false
+                                binding.edit.error = State.textError
+                                binding.button.isEnabled = true
                             }
                         }
+                    }
+            }
+
+        viewLifecycleOwner.lifecycleScope
+            .launchWhenStarted {
+                viewModel.error
+                    .collect() { message ->
+                        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
                     }
             }
     }
