@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.hmw12.databinding.FragmentMainBinding
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -33,22 +34,30 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.button.setOnClickListener {
             val text: String = binding.edit.text.toString()
-            viewModel.findText(text)
+//            if (text.length < 3) {
+//                binding.button.isEnabled = false
+//
+//            }
+//            if (text.length > 3) {
+//                binding.button.isEnabled = true
+                viewModel.findText(text)
+//            }
         }
 
         viewLifecycleOwner.lifecycleScope
             .launchWhenStarted {
                 viewModel.state
-                    .collect { State ->
-                        binding.textview.text = State.text
+                    .collect { State -> binding.textview.text = State.text
                         when (State) {
                             is State.Success -> {
                                 binding.progress.isVisible = false
                             }
                             is State.Loading -> {
                                 binding.progress.isVisible = true
+//                                binding.button.isVisible = false
                             }
                         }
                     }
