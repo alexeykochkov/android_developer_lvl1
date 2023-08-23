@@ -13,5 +13,4 @@
         android:layout_height="match_parent"
         android:name="com.example.hmw12.MainFragment"
         />
-    
 </androidx.constraintlayout.widget.ConstraintLayout>
