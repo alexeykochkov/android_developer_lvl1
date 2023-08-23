@@ -14,7 +14,7 @@ import java.util.Observable
 class MainViewModel : ViewModel() {
     private val state_ = MutableStateFlow<State>(State.Success(""))
     val state = state_.asStateFlow()
-    val observer = Observer()
+    val observer = MyObservable()
     var jobFindText: Job? = null
 
     fun findText(text: String) {
@@ -33,9 +33,14 @@ class MainViewModel : ViewModel() {
             delay(5_000)
             state_.value = State.Success("по запросу \"${text}\" ничего не найдено")
         }
+
+
+//       observer.debounce(300).onEach {
+//            Log.d(it)
+//        }.launchIn(viewModelScope)
     }
 
-    inner class Observer: BaseObservable () {
+    inner class MyObservable: BaseObservable () {
         @Bindable
         var text: String = ""
         set(value) {

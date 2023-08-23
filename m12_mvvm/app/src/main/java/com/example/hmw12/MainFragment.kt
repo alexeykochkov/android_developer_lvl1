@@ -10,9 +10,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.hmw12.databinding.FragmentMainBinding
+
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -38,13 +40,22 @@ class MainFragment : Fragment() {
 
         binding.button.setOnClickListener {
             val text: String = binding.edit.text.toString()
-            viewModel.findText(text)
+//            if (text.length < 3) {
+//                binding.button.isEnabled = false
+//
+//            }
+//            if (text.length > 3) {
+//                binding.button.isEnabled = true
+                viewModel.findText(text)
+//            }
         }
 
         viewLifecycleOwner.lifecycleScope
             .launchWhenStarted {
                 viewModel.state
+
                     .collect { State ->
+
                         when (State) {
                             is State.Success -> {
                                 val text: String = binding.edit.text.toString()
@@ -57,6 +68,7 @@ class MainFragment : Fragment() {
                             }
                             is State.Loading -> {
                                 binding.progress.isVisible = true
+
                                 binding.edit.error = null
                                 binding.button.isEnabled = false
                             }
@@ -64,6 +76,7 @@ class MainFragment : Fragment() {
                                 binding.progress.isVisible = false
                                 binding.edit.error = State.textError
                                 binding.button.isEnabled = true
+
                             }
                         }
                     }
