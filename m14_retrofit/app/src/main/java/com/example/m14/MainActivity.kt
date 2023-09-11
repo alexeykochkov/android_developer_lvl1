@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun userReceived(user: User, binding: ActivityMainBinding) {
-        binding.text.text = user.results[0].gender
+        binding.text.text = user.results[0].gender + user.results[0].name
 //        только здесь можно присваивать значение юзера
     }
 

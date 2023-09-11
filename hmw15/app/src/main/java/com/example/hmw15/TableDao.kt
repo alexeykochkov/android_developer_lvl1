@@ -15,7 +15,7 @@ interface TableDao {
     fun getAll(): Flow<List<Table>>
 
     @Query( "SELECT * FROM text_table WHERE :text == text_table.word" )
-    fun getItem(text:String): Table?
+    suspend fun getItem(text:String): Table?
 
     @Insert (onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(table: Table)
@@ -25,4 +25,7 @@ interface TableDao {
 
     @Update
     suspend fun update(table: Table)
+
+    @Query ("DELETE FROM text_table")
+    suspend fun deleteAll()
 }
