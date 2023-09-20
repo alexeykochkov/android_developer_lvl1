@@ -25,6 +25,7 @@ jobs:
     - name: Build with Gradle
       run: cd MyApplication && ./gradlew build
   tests: 
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
