@@ -24,7 +24,7 @@ jobs:
       run: cd MyApplication && chmod +x gradlew
     - name: Build with Gradle
       run: cd MyApplication && ./gradlew build
-  tests: 
+  tests-local: 
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -37,8 +37,21 @@ jobs:
         cache: gradle
     - name: run tests
       run: ls .
+  tests-device: 
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: gradle
+    - name: run tests
+      run: ls .    
   deploy-to-google-play: 
-    needs: tests
+    needs: [tests-device, tests-local]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
