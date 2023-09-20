@@ -13,6 +13,6 @@ object RetrofitInstance {
 //            функции getRandomUser
         .build()
 
-    val usefulActiv ityRepository: UsefulActivityRepository = retrofit.create(UsefulActivityRepository::class.java) //это создание ретрофит сервиса
+    val usefulActivityRepository: UsefulActivityRepository = retrofit.create(UsefulActivityRepository::class.java) //это создание ретрофит сервиса
 
 }
